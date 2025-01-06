@@ -53,6 +53,7 @@ function App() {
 
   async function onSubmit(data) {
     setIsLinkSubmitted(true);
+    setIsLoading(true);
 
     try {
       const fetchedData = await fetchAmazonData();
@@ -77,6 +78,7 @@ function App() {
 
       // Mark data as ready
       setIsDataReady(true);
+      setIsLoading(false);
     } catch (error) {
       setIsDataReady(true);
       console.error("Error fetching or processing data:", error);
@@ -90,6 +92,7 @@ function App() {
   const [reviewStrings, setReviewStrings] = useState();
   const [reviewScores, setReviewScores] = useState();
   const [isDataReady, setIsDataReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -145,7 +148,22 @@ function App() {
             </div>
           </>
         ) : (
-          <></>
+          <>
+            <div className="px-[10px] ">
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    <h1 className="text-2xl">
+                      {isLoading ? "Loading..." : "Submit a link!"}
+                    </h1>
+                  </CardTitle>
+                  <CardDescription>
+                    {isLoading ? "still loading" : "submit!"}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
+          </>
         )}
       </ThemeProvider>
     </>
